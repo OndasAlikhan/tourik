@@ -1,0 +1,47 @@
+version: '3'
+
+vars:
+  GOOSE_DRIVER: '{{.GOOSE_DRIVER | default "postgres"}}'
+  GOOSE_DBSTRING: '{{.GOOSE_DBSTRING | default "postgres://tourik:tourik@localhost:5432/tourik?sslmode=disable"}}'
+  MIGRATIONS_DIR: migrations
+
+tasks:
+  build:
+    cmds:
+      - go build -o bin/tourik ./cmd/tourik
+
+  compose-up:
+    cmds:
+      - docker compose up -d
+  
+  rebuild-app:
+    cmds:
+      - docker compose up -d --build app
+
+  migrate-create:
+    env:
+      GOOSE_DRIVER: '{{.GOOSE_DRIVER}}'
+      GOOSE_DBSTRING: '{{.GOOSE_DBSTRING}}'
+    cmds:
+      - go tool goose -dir {{.MIGRATIONS_DIR}} create {{.name}} sql
+
+  migrate-up:
+    env:
+      GOOSE_DRIVER: '{{.GOOSE_DRIVER}}'
+      GOOSE_DBSTRING: '{{.GOOSE_DBSTRING}}'
+    cmds:
+      - go tool goose -dir {{.MIGRATIONS_DIR}} up
+
+  migrate-down:
+    env:
+      GOOSE_DRIVER: '{{.GOOSE_DRIVER}}'
+      GOOSE_DBSTRING: '{{.GOOSE_DBSTRING}}'
+    cmds:
+      - go tool goose -dir {{.MIGRATIONS_DIR}} down
+
+  migrate-status:
+    env:
+      GOOSE_DRIVER: '{{.GOOSE_DRIVER}}'
+      GOOSE_DBSTRING: '{{.GOOSE_DBSTRING}}'
+    cmds:
+      - go tool goose -dir {{.MIGRATIONS_DIR}} status
