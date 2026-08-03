@@ -8,11 +8,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/OndasAlikhan/tourik/internal/app"
+	appFactory "github.com/OndasAlikhan/tourik/internal/app"
 )
 
 func main() {
-	app, err := app.NewApp()
+	app, err := appFactory.NewApp()
 	if err != nil {
 		slog.Error("app.NewApp error:", "error", err)
 		return
