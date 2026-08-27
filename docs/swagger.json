@@ -1,0 +1,94 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/tournaments": {
+            "get": {
+                "description": "Returns a list of all tournaments",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tournaments"
+                ],
+                "summary": "List tournaments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_OndasAlikhan_tourik_internal_transport_http_tournament.Response"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_OndasAlikhan_tourik_internal_transport_http_tournament.Response": {
+            "type": "object",
+            "properties": {
+                "bracketFormat": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "discipline": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "maxParticipants": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_transport_http_tournament.Response": {
+            "type": "object",
+            "properties": {
+                "bracketFormat": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "discipline": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "maxParticipants": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

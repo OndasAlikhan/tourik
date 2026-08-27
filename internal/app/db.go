@@ -4,9 +4,12 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v5/stdlib"
+	"github.com/pressly/goose/v3"
 
 	"github.com/OndasAlikhan/tourik/internal/config"
 )
@@ -21,7 +24,7 @@ func NewDBPool(ctx context.Context, cfg config.AppConfig) (*pgxpool.Pool, error)
 	}
 	pgxConfig, err := pgxpool.ParseConfig(dsn.String())
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to parse dsn: %w", err)
 	}
 
 	pgxConfig.MaxConnLifetime = time.Hour
@@ -44,4 +47,16 @@ func NewDBPool(ctx context.Context, cfg config.AppConfig) (*pgxpool.Pool, error)
 	}
 
 	return pool, nil
+}
+
+func RunMigrations(pool *pgxpool.Pool) error {
+	db := stdlib.OpenDBFromPool(pool)
+	provider, err := goose.NewProvider(goose.DialectPostgres, db, os.DirFS("migrations"))
+	if err != nil {
+		return fmt.Errorf("RunMigrations: create provider: %w", err)
+	}
+	if _, err := provider.Up(context.Background()); err != nil {
+		return fmt.Errorf("RunMigrations: up: %w", err)
+	}
+	return nil
 }

@@ -8,8 +8,11 @@ import (
 	"github.com/OndasAlikhan/tourik/internal/repo/tournament"
 )
 
+type Repo interface {
+	List(ctx context.Context) ([]tournament.Tournament, error)
+}
 type Service struct {
-	repo tournament.Repo
+	repo Repo
 }
 
 func New(repo tournament.Repo) Service {

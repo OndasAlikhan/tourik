@@ -8,13 +8,22 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/OndasAlikhan/tourik/docs"
 	appFactory "github.com/OndasAlikhan/tourik/internal/app"
 )
+
+const stopTimeout = time.Second * 10
 
 func main() {
 	app, err := appFactory.NewApp()
 	if err != nil {
 		slog.Error("app.NewApp error:", "error", err)
+		return
+	}
+
+	err = app.InitContainer()
+	if err != nil {
+		slog.Error("failed to init container", "error", err)
 		return
 	}
 
@@ -25,9 +34,9 @@ func main() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-	defer cancel() // это стоит вызвать внутри app.Stop() ?
 	app.Logger.Info("stopping app")
+	ctx, cancel := context.WithTimeout(context.Background(), stopTimeout)
+	defer cancel()
 	app.Stop(ctx)
 
 }

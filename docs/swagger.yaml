@@ -1,0 +1,60 @@
+definitions:
+  github_com_OndasAlikhan_tourik_internal_transport_http_tournament.Response:
+    properties:
+      bracketFormat:
+        type: string
+      createdAt:
+        type: string
+      discipline:
+        type: string
+      id:
+        type: integer
+      maxParticipants:
+        type: integer
+      name:
+        type: string
+      startDate:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  internal_transport_http_tournament.Response:
+    properties:
+      bracketFormat:
+        type: string
+      createdAt:
+        type: string
+      discipline:
+        type: string
+      id:
+        type: integer
+      maxParticipants:
+        type: integer
+      name:
+        type: string
+      startDate:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /tournaments:
+    get:
+      description: Returns a list of all tournaments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_OndasAlikhan_tourik_internal_transport_http_tournament.Response'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: List tournaments
+      tags:
+      - tournaments
+swagger: "2.0"
