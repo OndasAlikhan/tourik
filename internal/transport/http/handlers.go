@@ -19,6 +19,9 @@ func Routers(cnt internal.Container) *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.GET("/tournaments", cnt.Handlers.TournamentHandler.ListTournaments)
+		api.GET("/tournaments/:id", cnt.Handlers.TournamentHandler.GetTournament)
+		api.POST("/tournaments", cnt.Handlers.TournamentHandler.CreateTournament)
+		api.PUT("/tournaments/:id", cnt.Handlers.TournamentHandler.UpdateTournament)
 	}
 
 	return router

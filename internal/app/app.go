@@ -11,9 +11,9 @@ import (
 	"github.com/OndasAlikhan/tourik/internal"
 	"github.com/OndasAlikhan/tourik/internal/config"
 	tournamentRepo "github.com/OndasAlikhan/tourik/internal/repo/tournament"
-	tournamentService "github.com/OndasAlikhan/tourik/internal/service/tournament"
 	transportHttp "github.com/OndasAlikhan/tourik/internal/transport/http"
 	tournamentHandler "github.com/OndasAlikhan/tourik/internal/transport/http/tournament"
+	tournamentService "github.com/OndasAlikhan/tourik/internal/usecase/tournament"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -38,7 +38,9 @@ func (a *App) InitContainer() error {
 		return fmt.Errorf("NewApp() error creating database: %w", err)
 	}
 
-	tournamentRepo := tournamentRepo.New(db)
+	sqlxDB := NewSqlxDB(db)
+
+	tournamentRepo := tournamentRepo.New(sqlxDB)
 	tournamentService := tournamentService.New(tournamentRepo)
 	tournamentHandler := tournamentHandler.New(tournamentService)
 

@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.12.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/jackc/pgx/v5 v5.10.0
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/pressly/goose/v3 v3.27.2
 	github.com/prometheus/client_golang v1.24.1
 	github.com/swaggo/files v1.0.1

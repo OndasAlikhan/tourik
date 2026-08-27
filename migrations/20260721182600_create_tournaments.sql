@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS tournaments (
     bracket_format text NOT NULL,
     max_participants int NOT NULL,
     start_date timestamp NOT NULL,
+    end_date timestamp NOT NULL,
     created_at timestamp NOT NULL,
     updated_at timestamp NOT NULL
 );

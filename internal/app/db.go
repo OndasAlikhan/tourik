@@ -9,6 +9,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
+	"github.com/jmoiron/sqlx"
 	"github.com/pressly/goose/v3"
 
 	"github.com/OndasAlikhan/tourik/internal/config"
@@ -47,6 +48,10 @@ func NewDBPool(ctx context.Context, cfg config.AppConfig) (*pgxpool.Pool, error)
 	}
 
 	return pool, nil
+}
+
+func NewSqlxDB(pool *pgxpool.Pool) *sqlx.DB {
+	return sqlx.NewDb(stdlib.OpenDBFromPool(pool), "pgx")
 }
 
 func RunMigrations(pool *pgxpool.Pool) error {

@@ -13,6 +13,7 @@ type Tournament struct {
 	BracketFormat   string    `db:"bracket_format"`
 	MaxParticipants int       `db:"max_participants"`
 	StartDate       time.Time `db:"start_date"`
+	EndDate         time.Time `db:"end_date"`
 	CreatedAt       time.Time `db:"created_at"`
 	UpdatedAt       time.Time `db:"updated_at"`
 }
@@ -25,6 +26,21 @@ func (t Tournament) ToDomain() domain.Tournament {
 		BracketFormat:   t.BracketFormat,
 		MaxParticipants: t.MaxParticipants,
 		StartDate:       t.StartDate,
+		EndDate:         t.EndDate,
+		CreatedAt:       t.CreatedAt,
+		UpdatedAt:       t.UpdatedAt,
+	}
+}
+
+func FromDomain(t domain.Tournament) Tournament {
+	return Tournament{
+		ID:              t.ID,
+		Name:            t.Name,
+		Discipline:      t.Discipline,
+		BracketFormat:   t.BracketFormat,
+		MaxParticipants: t.MaxParticipants,
+		StartDate:       t.StartDate,
+		EndDate:         t.EndDate,
 		CreatedAt:       t.CreatedAt,
 		UpdatedAt:       t.UpdatedAt,
 	}
