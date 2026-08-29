@@ -2,10 +2,9 @@ services:
   app:
     build: .
     ports:
-      - "8080:8080"
-    environment:
-      POSTGRES_DSN: postgres://tourik:tourik@postgres:5432/tourik?sslmode=disable
-      KAFKA_BROKERS: kafka:9092
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -32,6 +31,7 @@ services:
 
   kafka:
     image: apache/kafka:latest
+    hostname: kafka
     ports:
       - "9092:9092"
     environment:
