@@ -3,13 +3,14 @@ package tournament
 import (
 	"time"
 
-	"github.com/OndasAlikhan/tourik/internal/domain"
+	tourDomain "github.com/OndasAlikhan/tourik/internal/domain/tournament"
 )
 
 type Tournament struct {
 	ID              int       `db:"id"`
 	Name            string    `db:"name"`
 	Discipline      string    `db:"discipline"`
+	Status          string    `db:"status"`
 	BracketFormat   string    `db:"bracket_format"`
 	MaxParticipants int       `db:"max_participants"`
 	StartDate       time.Time `db:"start_date"`
@@ -18,12 +19,13 @@ type Tournament struct {
 	UpdatedAt       time.Time `db:"updated_at"`
 }
 
-func (t Tournament) ToDomain() domain.Tournament {
-	return domain.Tournament{
+func (t Tournament) ToDomain() tourDomain.Tournament {
+	return tourDomain.Tournament{
 		ID:              t.ID,
 		Name:            t.Name,
 		Discipline:      t.Discipline,
-		BracketFormat:   t.BracketFormat,
+		Status:          tourDomain.TournamentStatus(t.Status),
+		BracketFormat:   tourDomain.BracketFormat(t.BracketFormat),
 		MaxParticipants: t.MaxParticipants,
 		StartDate:       t.StartDate,
 		EndDate:         t.EndDate,
@@ -32,12 +34,13 @@ func (t Tournament) ToDomain() domain.Tournament {
 	}
 }
 
-func FromDomain(t domain.Tournament) Tournament {
+func FromDomain(t tourDomain.Tournament) Tournament {
 	return Tournament{
 		ID:              t.ID,
 		Name:            t.Name,
 		Discipline:      t.Discipline,
-		BracketFormat:   t.BracketFormat,
+		Status:          string(t.Status),
+		BracketFormat:   string(t.BracketFormat),
 		MaxParticipants: t.MaxParticipants,
 		StartDate:       t.StartDate,
 		EndDate:         t.EndDate,

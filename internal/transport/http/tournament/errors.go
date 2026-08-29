@@ -3,14 +3,22 @@ package tournament
 import (
 	"errors"
 
-	"github.com/OndasAlikhan/tourik/internal/domain"
+	tourDomain "github.com/OndasAlikhan/tourik/internal/domain/tournament"
 	"github.com/OndasAlikhan/tourik/internal/transport/http/wrap"
 )
 
 var errorMap = map[error]wrap.ErrMapObj{
-	domain.ErrTourNotFound: {
+	tourDomain.ErrTourNotFound: {
 		StatusCode: 404,
 		Message:    "Tournament not found",
+	},
+	tourDomain.ErrWrongStatus: {
+		StatusCode: 409,
+		Message:    "Tournament status does not allow this action",
+	},
+	tourDomain.ErrMaxParticipants: {
+		StatusCode: 409,
+		Message:    "Tournament does not meet participant requirements",
 	},
 }
 

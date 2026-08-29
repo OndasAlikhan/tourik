@@ -18,10 +18,28 @@ func Routers(cnt internal.Container) *gin.Engine {
 
 	api := router.Group("/api")
 	{
-		api.GET("/tournaments", cnt.Handlers.TournamentHandler.ListTournaments)
-		api.GET("/tournaments/:id", cnt.Handlers.TournamentHandler.GetTournament)
-		api.POST("/tournaments", cnt.Handlers.TournamentHandler.CreateTournament)
-		api.PUT("/tournaments/:id", cnt.Handlers.TournamentHandler.UpdateTournament)
+		tournaments := api.Group("/tournaments")
+		{
+			tournaments.GET("", cnt.Handlers.TournamentHandler.ListTournaments)
+			tournaments.GET("/:id", cnt.Handlers.TournamentHandler.GetTournament)
+			tournaments.POST("", cnt.Handlers.TournamentHandler.CreateTournament)
+			tournaments.PUT("/:id", cnt.Handlers.TournamentHandler.UpdateTournament)
+
+			tournaments.POST("/:id/participants", cnt.Handlers.ParticipantHandler.CreateTournamentParticipant)
+			tournaments.DELETE("/:id/participants/:pid", cnt.Handlers.ParticipantHandler.DeleteTournamentParticipant)
+
+			tournaments.POST("/:id/registration", cnt.Handlers.TournamentHandler.BeginRegistration)
+			tournaments.POST("/:id/start", cnt.Handlers.TournamentHandler.Start)
+			tournaments.POST("/:id/cancel", cnt.Handlers.TournamentHandler.Cancel)
+		}
+
+		participants := api.Group("/participants")
+		{
+			participants.GET("", cnt.Handlers.ParticipantHandler.ListParticipants)
+			participants.GET("/:id", cnt.Handlers.ParticipantHandler.GetParticipant)
+			participants.POST("", cnt.Handlers.ParticipantHandler.CreateParticipant)
+			participants.PUT("/:id", cnt.Handlers.ParticipantHandler.UpdateParticipant)
+		}
 	}
 
 	return router

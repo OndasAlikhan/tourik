@@ -3,13 +3,14 @@ package tournament
 import (
 	"time"
 
-	"github.com/OndasAlikhan/tourik/internal/domain"
+	tourDomain "github.com/OndasAlikhan/tourik/internal/domain/tournament"
 )
 
 type Response struct {
 	ID              int       `json:"id"`
 	Name            string    `json:"name"`
 	Discipline      string    `json:"discipline"`
+	Status          string    `json:"status"`
 	BracketFormat   string    `json:"bracketFormat"`
 	MaxParticipants int       `json:"maxParticipants"`
 	StartDate       time.Time `json:"startDate"`
@@ -17,20 +18,22 @@ type Response struct {
 	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
-type CreateTournament struct {
+type CreateTournamentRequest struct {
 	Name            string    `json:"name"`
 	Discipline      string    `json:"discipline"`
+	Status          string    `json:"status"`
 	BracketFormat   string    `json:"bracketFormat"`
 	MaxParticipants int       `json:"maxParticipants"`
 	StartDate       time.Time `json:"startDate"`
 	EndDate         time.Time `json:"endDate"`
 }
 
-func (c CreateTournament) ToDomain() domain.Tournament {
-	return domain.Tournament{
+func (c CreateTournamentRequest) ToDomain() tourDomain.Tournament {
+	return tourDomain.Tournament{
 		Name:            c.Name,
 		Discipline:      c.Discipline,
-		BracketFormat:   c.BracketFormat,
+		Status:          tourDomain.TournamentStatus(c.Status),
+		BracketFormat:   tourDomain.BracketFormat(c.BracketFormat),
 		MaxParticipants: c.MaxParticipants,
 		StartDate:       c.StartDate,
 		EndDate:         c.EndDate,
